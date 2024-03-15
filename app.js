@@ -44,12 +44,18 @@ app.use(bodyParser.json());
 app.use("*", require("./Services/authServices").tokenVerification);
 // app.use("/refresh-token", require("./Services/authServices").tokenRefresh);
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/auth", authRouter);
-app.use("/admin", adminRouter);
-app.use("/cart", cartRouter);
-app.use("/order", orderRouter);
+app.use("/api", indexRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
+
+app.use("/api/products", (req, res) => {
+  return res.status(200).json({
+    message: "This is new feature change, a new route for products",
+  });
+});
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
