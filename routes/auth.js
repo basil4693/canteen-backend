@@ -15,7 +15,6 @@ const sendToken = require("../utils/jwtToken");
 /* GET home page. */
 router.post("/create-user", async function (req, res, next) {
   try {
-    console.log("object")
     const response = await userRegister(req.body);
     return res.send(response);
   } catch (error) {
