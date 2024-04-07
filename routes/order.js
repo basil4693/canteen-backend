@@ -20,7 +20,7 @@ router.post("/place-order",async(req,res)=>{
       
 })
 
-router.get("/",async(req,res)=>{
+router.get("/user-orders",async(req,res)=>{
     try {
         const userEmail = req.email
         const response = await getUserOrders(userEmail)
@@ -29,6 +29,7 @@ router.get("/",async(req,res)=>{
         console.log(error)
     }
 })
+
 
 
 

@@ -13,9 +13,30 @@ const addFood=async(food,callback)=>{
 
 const getAllProducts=()=>{
     try {
-        return new Promise (async(resolve,reject)=>{
+        return new Promise (async(resolve,reject)=>{ 
             let products = await Product.find()           
             resolve(products)
+        })
+        
+    } catch (error) {
+        console.log(error) 
+    }
+}
+
+const quantityDecrement = async(quantity,foodId)=>{
+    console.log(quantity)
+    console.log(foodId)
+
+    try {
+        return new Promise (async(resolve,reject)=>{
+            let food = await Product.findOne({_id:foodId})
+
+            console.log(food.quantity)
+            food.quantity -= quantity
+
+            await food.save();
+            console.log(food.quantity)
+
         })
         
     } catch (error) {
@@ -23,5 +44,4 @@ const getAllProducts=()=>{
     }
 }
 
-
-module.exports ={addFood,getAllProducts}
+module.exports ={addFood,getAllProducts,quantityDecrement}

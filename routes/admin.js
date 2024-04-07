@@ -40,7 +40,6 @@ router.post("/add-product", upload.single("file"), async (req, res) => {
       file,
     });
 
-    console.log(response);
   } catch (error) {
     console.log(error);
   }
@@ -65,3 +64,4 @@ router.get("/all-users", async (req, res) => {
 });
 
 module.exports = router;
+ 

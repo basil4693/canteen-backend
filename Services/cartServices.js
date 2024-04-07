@@ -2,17 +2,7 @@ const { default: mongoose } = require("mongoose");
 const Cart = require("../models/Cart");
 const User = require("../models/User");
 
-// const addToCart = async ({ food_id, userEmail }) => {
-// try {
-//     let updatedCart = await Cart.findOneAndUpdate(
-//       { user: userEmail, "items.product": food_id },
-//       { $inc: { "items.$.quantity": 1 } },
-//       { upsert: true }
-//     );
-//     return updatedCart;
-//   };
-//   catch (error) {}
-// }
+
 
 const addToCart = async ({ food_id, userEmail }) => {
 
@@ -120,7 +110,7 @@ const getCartItems = async({userEmail})=>{
               data: {
                 cartItems,
                 metaData: {
-                  itemsTotal,
+                  itemsTotal, 
                   discount,
                   grandTotal: itemsTotal - discount,
                 },

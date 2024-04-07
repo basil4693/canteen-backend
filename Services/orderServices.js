@@ -2,6 +2,7 @@ const Cart = require("../models/Cart");
 const Order = require("../models/Order");
 const User = require("../models/User");
 const { getCartItems, removeFromCart, deleteCart } = require("./cartServices");
+const { quantityDecrement } = require("./productServices");
 
 const placeOrder = async (data, userEmail) => {
   try {
@@ -16,19 +17,34 @@ const placeOrder = async (data, userEmail) => {
       const cartItems = cartResponse.data.cartItems;
       const totalAmount = cartResponse.data.metaData.itemsTotal;
 
+      const decrementPromises = [];
+
+
       const orderItems = cartItems.map((cartItem) => {
+        let quantity = cartItem.quantity;
+        let foodId = cartItem.food._id
+        console.log(foodId)
+
+        decrementPromises.push(quantityDecrement(quantity, foodId));
+
         return {
+          id:cartItem.food._id,
           name: cartItem.food.name,
           quantity: cartItem.quantity,
           price: cartItem.food.price,
           image: cartItem.food.file,
         };
+      
+
+
       });
+
+
 
       const orderObject = {
         user: userId,
         email: userEmail,
-        userName: userName,
+        userName: userName, 
         items: orderItems,
         totalAmount: totalAmount,
         paymentId: paymentId,
@@ -61,18 +77,14 @@ const getUserOrders = async (userEmail) => {
 
       let userId = user.id;
 
-      const order = await Order.findOne({ user: userId });
+      const order = await Order.find({ user: userId });
       console.log("getorder");
-      const food = await Cart.findOne({ _id: order.items });
-
-      console.log(food);
-      console.log(order.items.name);
       resolve(order);
     });
-  } catch (error) {
+  } catch (error) { 
     console.log(error);
   }
-};
+}; 
 
 const getAllOrders = async () => {
   try {
@@ -84,5 +96,7 @@ const getAllOrders = async () => {
     console.log("all order error :" + error);
   }
 };
+
+
 
 module.exports = { placeOrder, getUserOrders, getAllOrders };
